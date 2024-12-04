@@ -22,7 +22,7 @@ const RegisterForm = () => {
     e.preventDefault();
     try {
       const response = await Axios.post(
-        "http://localhost:5000/register",
+        `${import.meta.env.VITE_API_URL}/register`, // Use the environment variable
         formData
       );
       toast.success(response.data.message);

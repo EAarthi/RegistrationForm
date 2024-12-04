@@ -16,13 +16,13 @@ const db = mysql.createConnection({
   database: process.env.DB_DATABASE,  
 });
 
-// db.connect((err) => {
-//   if (err) {
-//     console.error("Database connection failed: " + err.stack);
-//     return;
-//   }
-//   console.log("Connected to MySQL database.");
-// });
+db.connect((err) => {
+  if (err) {
+    console.error("Database connection failed: " + err.stack);
+    return;
+  }
+  console.log("Connected to MySQL database.");
+});
 
 app.post("/register", (req, res) => {
   const { name, employee_id, email, phone, department, date_of_joining, role } = req.body;
