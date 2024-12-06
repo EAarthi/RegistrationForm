@@ -60,6 +60,16 @@ app.post("/register", (req, res) => {
     });
   });
 });
+app.get("/read", (req, res) => {
+  const query = "SELECT * FROM employees";
+  db.query(query, (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Error retrieving employees" });
+    }
+    res.status(200).json(result);
+  });
+})
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
