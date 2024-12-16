@@ -71,6 +71,49 @@ app.get("/read", (req, res) => {
   });
 })
 
+// Update employee details
+app.put("/update/:id", (req, res) => {
+  const { name, employee_id, email, phone, department, date_of_joining, role } = req.body;
+  const employeeId = req.params.id;
+
+  if (!name || !employee_id || !email || !phone || !department || !date_of_joining || !role) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  const query = `
+    UPDATE employees SET name = ?, employee_id = ?, email = ?, phone = ?, department = ?, date_of_joining = ?, role = ?
+    WHERE employee_id = ?
+  `;
+
+  db.query(query, [name, employee_id, email, phone, department, date_of_joining, role, employeeId], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Error updating employee" });
+    }
+    res.status(200).json({ message: "Employee updated successfully" });
+  });
+});
+
+
+// Delete employee details
+app.delete("/delete/:id", (req, res) => {
+  const employeeId = req.params.id;
+
+  const query = "DELETE FROM employees WHERE employee_id = ?";
+  db.query(query, [employeeId], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Error deleting employee" });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+    res.status(200).json({ message: "Employee deleted successfully" });
+  });
+});
+
+
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

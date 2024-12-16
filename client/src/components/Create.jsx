@@ -110,6 +110,7 @@ const Create = () => {
             type="date"
             id="date_of_joining"
             name="date_of_joining"
+            max={new Date().toISOString().split("T")[0]}
             onChange={handleChange}
             className="border border-gray-400 rounded-md inline-block px-4 py-2 ml-3 "
           />
